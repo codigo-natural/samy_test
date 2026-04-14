@@ -35,18 +35,14 @@ export class AuthService {
       },
     );
 
-    const cookieDomain = this.configService.get<string>('configuration.cookie.domain') as string;
-    const nodeEnv = this.configService.get<string>('configuration.app.nodeEnv') ?? 'development';
     const cookieName =
       this.configService.get<string>('configuration.cookie.jwtCookieName') ?? 'auth';
 
-    const sameSite = nodeEnv === 'production' ? 'strict' : 'lax';
-
+    // sameSite: 'none' required for cross-origin cookies (Vercel → AWS)
     res.cookie(cookieName, token, {
       httpOnly: true,
-      sameSite,
-      secure: nodeEnv === 'production',
-      domain: cookieDomain,
+      sameSite: 'none',
+      secure: true,
       path: '/',
     });
   }

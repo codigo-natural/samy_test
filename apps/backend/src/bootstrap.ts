@@ -31,16 +31,12 @@ export async function setupApp(app: INestApplication): Promise<void> {
     }),
   );
 
-  const nodeEnv =
-    configService.get<string>('configuration.app.nodeEnv') ?? 'development';
+  // Swagger docs enabled for demo (production included)
+  const config = new DocumentBuilder()
+    .setTitle('Portal API')
+    .setVersion('1.0')
+    .build();
 
-  if (nodeEnv !== 'production') {
-    const config = new DocumentBuilder()
-      .setTitle('Portal API')
-      .setVersion('1.0')
-      .build();
-
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup(`${apiPrefix}/docs`, app, document);
-  }
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup(`${apiPrefix}/docs`, app, document);
 }
