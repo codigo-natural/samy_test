@@ -1,0 +1,16 @@
+{
+  "name": "samy",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev:backend": "pnpm --filter backend start:dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "pnpm --filter backend test && pnpm --filter backend test:e2e && pnpm --filter frontend test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true
+}

@@ -1,0 +1,41 @@
+service: portal-api
+useDotEnv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${env:AWS_REGION, 'us-east-1'}
+  environment:
+    NODE_ENV: ${env:NODE_ENV, 'development'}
+    DATABASE_URL: ${env:DATABASE_URL, ssm:/portal/DATABASE_URL}
+    JWT_SECRET: ${env:JWT_SECRET, ssm:/portal/JWT_SECRET}
+    JWT_EXPIRES_IN: ${env:JWT_EXPIRES_IN, ssm:/portal/JWT_EXPIRES_IN}
+    REQRES_BASE_URL: https://reqres.in/api
+    REQRES_API_KEY: ${env:REQRES_API_KEY, ssm:/portal/REQRES_API_KEY}
+    REQRES_TIMEOUT_MS: 5000
+    CORS_ORIGIN: ${env:CORS_ORIGIN, ssm:/portal/CORS_ORIGIN}
+    LOG_LEVEL: warn
+    COOKIE_SECURE: true
+    COOKIE_DOMAIN: ${env:COOKIE_DOMAIN, ssm:/portal/COOKIE_DOMAIN}
+    PORT: ${env:PORT, 3001}
+    API_PREFIX: api
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    timeout: 30
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: any
+      - httpApi:
+          path: /
+          method: any
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3003
+    lambdaTimeout: 30
