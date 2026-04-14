@@ -73,7 +73,6 @@ export function ActivityFeed() {
 
   return (
     <div className="rounded-xl border border-border bg-card shadow-sm">
-      {/* Header */}
       <div className="flex items-center justify-between border-b border-border/50 px-4 py-3">
         <div className="flex items-center gap-2">
           <div>
@@ -88,7 +87,6 @@ export function ActivityFeed() {
         )}
       </div>
 
-      {/* Content */}
       <div className="max-h-[calc(100vh-20rem)] overflow-y-auto p-3">
         {events.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-center">

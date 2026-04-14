@@ -7,7 +7,7 @@ Fullstack technical challenge: a production-like portal to manage Users and Post
 - Backend
   - NestJS
   - Prisma ORM
-  - PostgreSQL (Docker)
+  - PostgreSQL (Docker for local, Neon for production)
   - JWT auth in HttpOnly cookie
   - RBAC (VIEWER | EDITOR | ADMIN)
   - Swagger/OpenAPI
@@ -43,7 +43,9 @@ From repo root:
 docker compose up -d
 ```
 
-PostgreSQL is exposed on `localhost:5432`.
+PostgreSQL is exposed on `localhost:5432` (local development).
+
+**Production Database**: [Neon](https://neon.tech) PostgreSQL is used for the deployed backend.
 
 Optional DB UI:
 

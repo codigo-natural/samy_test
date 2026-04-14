@@ -18,7 +18,6 @@ export function ThemeToggle() {
 
   return (
     <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-1 shadow-sm">
-      {/* Quick toggle button */}
       <button
         onClick={toggleTheme}
         className="group relative flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -31,10 +30,8 @@ export function ThemeToggle() {
         </span>
       </button>
 
-      {/* Divider */}
       <div className="h-4 w-px bg-border" />
 
-      {/* Theme selector */}
       <div className="flex items-center gap-0.5">
         {themeOptions.map(({ value, icon: OptionIcon }) => (
           <button
