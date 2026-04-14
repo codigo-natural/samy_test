@@ -30,7 +30,7 @@ export default function LoginPage() {
         .catch(() => setSession(null))
         .finally(() => {
           addEvent({ type: 'auth.login', message: `Logged in as ${email}` });
-          router.replace('/dashboard');
+          window.location.href = '/dashboard';
         });
     },
     onError: (e) => {
