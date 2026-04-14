@@ -27,7 +27,7 @@ const PostIcon = () => (
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { email, role, setSession, clearSession } = useAuthStore();
+  const { email, role, setSession } = useAuthStore();
 
   // Verify auth on mount
   const { data: authData, isLoading: authLoading } = useQuery({
@@ -38,12 +38,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!authLoading && !authData) {
-      clearSession();
+      setSession(null);
       router.replace('/login');
     } else if (authData) {
       setSession(authData);
     }
-  }, [authData, authLoading, router, setSession, clearSession]);
+  }, [authData, authLoading, router, setSession]);
 
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ['users-dashboard'],
