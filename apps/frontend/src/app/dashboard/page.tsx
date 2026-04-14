@@ -1,12 +1,15 @@
 "use client";
 
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import {
   Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
 import { getSavedUsers } from '@/lib/api/users';
 import { getPosts } from '@/lib/api/posts';
+import { getMe } from '@/lib/api/me';
 import { useAuthStore } from '@/lib/store/auth.store';
 import { ArrowRight } from "lucide-react";
 
@@ -23,17 +26,44 @@ const PostIcon = () => (
 );
 
 export default function DashboardPage() {
-  const { email, role } = useAuthStore();
+  const router = useRouter();
+  const { email, role, setSession, clearSession } = useAuthStore();
+
+  // Verify auth on mount
+  const { data: authData, isLoading: authLoading } = useQuery({
+    queryKey: ['auth-check'],
+    queryFn: getMe,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (!authLoading && !authData) {
+      clearSession();
+      router.replace('/login');
+    } else if (authData) {
+      setSession(authData);
+    }
+  }, [authData, authLoading, router, setSession, clearSession]);
 
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ['users-dashboard'],
     queryFn: () => getSavedUsers(1, 100),
+    enabled: !!authData,
   });
 
   const { data: postsData, isLoading: postsLoading } = useQuery({
     queryKey: ['posts-dashboard'],
     queryFn: () => getPosts(1, 100),
+    enabled: !!authData,
   });
+
+  if (authLoading || !authData) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
+  }
 
   const userCount = usersData?.total ?? 0;
   const postCount = postsData?.total ?? 0;
