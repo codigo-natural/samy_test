@@ -1,6 +1,6 @@
 # Samy — User & Posts Management Portal
 
-Fullstack technical challenge: a production-like portal to manage Users and Posts.
+a production-like portal to manage Users and Posts.
 
 ## Stack
 
